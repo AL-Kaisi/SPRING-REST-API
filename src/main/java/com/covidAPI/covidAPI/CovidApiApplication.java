@@ -1,13 +1,12 @@
 package com.covidAPI.covidAPI;
 
-import com.covidAPI.covidAPI.model.headers;
+import com.covidAPI.covidAPI.model.Headers;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
@@ -23,15 +22,19 @@ public class CovidApiApplication {
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 
-		return builder.build();
+		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(
+				HttpClientBuilder.create().build());
+		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
+		return restTemplate;
 	}
 
 	@Bean
 	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
 
+
 		return args -> {
-			headers quote = restTemplate.getForObject(
-					"https://api.coronavirus.data.gov.uk/v1/data", headers.class);
+			Headers quote = restTemplate.getForObject(
+					"https://api.coronavirus.data.gov.uk/v1/data?%27%27filters=areaType=nation;areaName=england", Headers.class);
 			log.info(quote.toString());
 		};
 	}

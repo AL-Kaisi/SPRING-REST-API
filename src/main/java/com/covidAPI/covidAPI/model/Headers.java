@@ -2,16 +2,14 @@ package com.covidAPI.covidAPI.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class headers {
+public class Headers {
     private int length;
     private int maxPageLimit;
     private int totalRecords;
-    private stats Stats;
-
-    public headers(){
-
-    }
+    private List<stats> data;
 
     public int getLength() {
         return length;
@@ -37,18 +35,18 @@ public class headers {
         this.totalRecords = totalRecords;
     }
 
-    public stats getStats() {
-        return Stats;
+    public List<stats> getData() {
+        return data;
     }
 
-    public void setStats(stats stats) {
-        Stats = stats;
+    public void setData(List<stats> data) {
+        this.data = data;
     }
 
     @Override
     public String toString() {
         return "JSONheaders{" +
                 "length= " +length +  ", maxPageLimit=" + maxPageLimit +
-                "totalRecords='" +totalRecords + ", Service=" + Stats + '}' ;
+                "totalRecords='" +totalRecords + ", Service=" + data + '}' ;
     }
 }
